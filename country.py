@@ -20,15 +20,17 @@ class ObjectMaster():
     def attack(A, B):
         A.attck(B)
 
-class Object():
-    def __init__(self, img, x, y, scale, init_health, power, init_money, radius, color):
-        
+class Object(pygame.sprite.Sprite):
+    def __init__(self, group, img, name, x, y, scale, init_health, power, init_money, radius, color):
+        super().__init__(group)
+        self.name = name
         width = img.get_width()
         height = img.get_height()
+        self.flag_img = pygame.image.load("images/country.png")
     
-        self.img = pygame.transform.scale(img, (int(width * scale), int(height * scale)))
-        self.rect = self.img.get_rect()
-        self.rect.topleft = (x - width/2, y - height/2)
+        self.image = pygame.transform.scale(img, (int(width * scale), int(height * scale)))
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
         self.state = 0
 
         self.health = init_health
@@ -54,13 +56,13 @@ class Object():
         pos = pygame.mouse.get_pos()
 
 
-        if self.isWar:
+        '''if self.isWar:
             pygame.draw.circle(surface, RED, self.pos, self.size)
         else:
-            pygame.draw.circle(surface, self.color, self.pos, self.size)
+            pygame.draw.circle(surface, self.color, self.pos, self.size)'''
 
         #draw button on screen
-        surface.blit(self.img, (self.rect.x, self.rect.y))
+        #surface.blit(self.image, (self.rect.x, self.rect.y))
 
 		#check mouseover and clicked conditions
 
@@ -107,4 +109,10 @@ class Object():
     def getPosition(self):
         return self.pos
 
+
+class Weapon(pygame.sprite.Sprite):
+    def __init__(self, pos, group):
+        super().__init__(group)
+        self.image = pygame.image.load('images/missiles_.png')
+        self.rect = self.image.get_rect(center = pos)
 
